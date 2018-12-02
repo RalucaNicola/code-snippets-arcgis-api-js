@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Create a tour</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.9/"></script>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+  </style>
+  <link rel="stylesheet" href="../style.css">
+  <script>
+    var webscene, view;
+
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView",
+      "dojo/domReady!"
+    ], function (WebScene, SceneView) {
+
+      var webscene = new WebScene({
+        portalItem: {
+          id: "0e4d09966b4d42d9a9e13b782976247d"
+        }
+      });
+
+      var view = new SceneView({
+        container: "viewDiv",
+        map: webscene,
+        qualityProfile: "high",
+        constraints: {
+          altitude: {
+            max: 10000
+          }
+        }
+      });
+
+      function startAnimation(slideNo) {
+        if (slideNo < webscene.presentation.slides.length) {
+
+          const slide = webscene.presentation.slides.getItemAt(slideNo);
+          document.getElementById("description").innerHTML = slide.title.text;
+
+          view.goTo(slide.viewpoint, {duration: 3000})
+              .then(function(){
+
+                window.setTimeout(function(){
+                  startAnimation(slideNo + 1);
+                }, 5000);
+              })
+              .otherwise(function(err){
+                console.log(err);
+              });
+            }
+      }
+
+      window.setTimeout(function(){
+        startAnimation(0);
+      }, 5000);
+
+    });
+
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv">
+  </div>
+  <header id="title">
+    <h2>Places I've lived 🏘️</h2>
+    <p id="description"></p>
+  </header>
+</body>
+
+</html>

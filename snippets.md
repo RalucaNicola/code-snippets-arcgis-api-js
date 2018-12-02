@@ -24,11 +24,32 @@ animate();
 
 ### ✈️ Create a tour from a set of points
 
-Creating a tour is super easy, you can either do that from a set of camera positions, of slides or just some (view)points. [Take me on a tour](./hello.html)
+Creating a tour is super easy, you can either do that from a set of camera positions, of slides or just some (view)points. [Take me on a tour](./examples/create-a-tour.html)
 
 ```js
 
-// some snippet wil be displayed here
+function startAnimation(slideNo) {
+  if (slideNo < webscene.presentation.slides.length) {
+
+    const slide = webscene.presentation.slides.getItemAt(slideNo);
+    document.getElementById("description").innerHTML = slide.title.text;
+
+    view.goTo(slide.viewpoint, {duration: 3000})
+        .then(function(){
+
+          window.setTimeout(function(){
+            startAnimation(slideNo + 1);
+          }, 5000)
+        })
+        .otherwise(function(err){
+          console.log(err);
+        });
+      }
+}
+
+window.setTimeout(function(){
+  startAnimation(0);
+}, 5000);
 ```
 
 ---
