@@ -20,7 +20,7 @@ header>h1 {
   max-width: 600px;
 }
 
-.snippet a {
+.snippet a, .demo-button {
   text-decoration: none;
   color: black;
   border: 3px solid #bbadf7;

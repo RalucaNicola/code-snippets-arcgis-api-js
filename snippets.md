@@ -9,9 +9,14 @@ function animate() {
   camera.position.longitude += 1;
   view.goTo(camera);
   requestAnimationFrame(function() {
-    animate(view);
+    if (!view.interacting) {
+      animate();
+    }
   });
 }
+
+// start animating on some event (click, view ready, etc.)
+animate();
 
 ```
 

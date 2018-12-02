@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title></title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://js.arcgis.com/4.9/"></script>
+  <script>
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView"
+    ], function(WebScene, SceneView) {
+
+      // Create Map
+      const webscene = new WebScene({
+        portalItem: {
+          id: "f5941614c9934b4a9346e732fb1af400"
+        }
+      });
+
+      // Create the SceneView
+      const view = new SceneView({
+        container: "viewDiv",
+        map: webscene
+      });
+
+      const rotateButton = document.getElementById("rotate");
+
+      function animate() {
+        const camera = view.camera.clone();
+        camera.position.longitude += 1;
+        view.goTo(camera);
+        requestAnimationFrame(function() {
+          if (!view.interacting) {
+            animate();
+          }
+        });
+      }
+
+      rotateButton.addEventListener("click", function() {
+        animate();
+      });
+
+      view.ui.empty("top-left");
+      view.ui.add(rotateButton, "top-left");
+
+      window.view = view;
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <button id="rotate" class="demo-button">Spin me right round</button>
+</body>
+
+</html>
