@@ -67,7 +67,7 @@ Sometimes you want to wait for all the layers to finish drawing before starting 
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. The `view` should be set on the `window`. Run this code snippet in the console:
+Figuring out the right numbers for camera position, tilt and heading made easy. The `view` should be set on the `window`. Run this code snippet in the console: [Show me the camera](./hello.html)
 
 ```js
 
