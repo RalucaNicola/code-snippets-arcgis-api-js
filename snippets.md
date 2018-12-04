@@ -91,7 +91,12 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
   else {
     console.log(`
 {
-  position: { x: ${p.x.toFixed(5)}, y: ${p.y.toFixed(5)}, z: ${p.z.toFixed(3)}, spatialReference: ${p.spatialReference.wkid} },
+  position: {
+    x: ${p.x.toFixed(5)},
+    y: ${p.y.toFixed(5)},
+    z: ${p.z.toFixed(3)},
+    spatialReference: ${p.spatialReference.wkid}
+  },
   heading: ${view.camera.heading.toFixed(2)},
   tilt: ${view.camera.tilt.toFixed(2)}
 }`);
