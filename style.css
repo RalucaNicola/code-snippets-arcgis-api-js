@@ -45,6 +45,10 @@ header>h1 {
   padding: 0;
 }
 
+.hljs {
+  background: transparent;
+}
+
 footer a, header a {
   color: #f44283;
   font-weight: bold;

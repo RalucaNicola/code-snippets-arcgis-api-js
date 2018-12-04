@@ -124,9 +124,9 @@ For those moments when layers fading in or out would be so awesome (in time seri
 ---
 
 
-### 📅 Animate lighting conditions throught a year
+### 📅 Change daytime with arrow keys
 
-The title says it all. You can also limit this to one day. [Let there be light](./hello.html)
+Setting the daytime in an app without any funky widget. [Let there be light](./hello.html)
 
 ```js
 
