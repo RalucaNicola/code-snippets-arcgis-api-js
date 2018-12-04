@@ -35,16 +35,16 @@ function startAnimation(slideNo) {
     document.getElementById("description").innerHTML = slide.title.text;
 
     view.goTo(slide.viewpoint, {duration: 3000})
-        .then(function(){
+      .then(function(){
 
-          window.setTimeout(function(){
-            startAnimation(slideNo + 1);
-          }, 5000)
-        })
-        .otherwise(function(err){
-          console.log(err);
-        });
-      }
+        window.setTimeout(function(){
+          startAnimation(slideNo + 1);
+        }, 5000)
+      })
+      .otherwise(function(err){
+        console.log(err);
+      });
+  }
 }
 
 window.setTimeout(function(){
@@ -60,7 +60,13 @@ Sometimes you want to wait for all the layers to finish drawing before starting 
 
 ```js
 
-// some snippet will be displayed here
+view.map.layers.forEach(function(layer) {
+  view.whenLayerView(layer, function(layerView) {
+    layerView.watch("updating", function() {
+
+    });
+  })
+})
 ```
 
 ---
