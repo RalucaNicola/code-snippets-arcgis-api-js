@@ -67,11 +67,30 @@ Sometimes you want to wait for all the layers to finish drawing before starting 
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. With this snippet. [Show me the camera](./hello.html)
+Figuring out the right numbers for camera position, tilt and heading made easy. The `view` should be set on the `window`. Run this code snippet in the console:
 
 ```js
 
-// some snippet will be displayed here
+(function() {
+  var p = view.camera.position;
+
+  if (p.spatialReference.isWebMercator || p.spatialReference.isWGS84) {
+    console.log(`
+{
+  position: [${p.longitude.toFixed(8)}, ${p.latitude.toFixed(8)}, ${p.z.toFixed(5)}],
+  heading: ${view.camera.heading.toFixed(2)},
+  tilt: ${view.camera.tilt.toFixed(2)}
+}`);
+  }
+  else {
+    console.log(`
+{
+  position: { x: ${p.x.toFixed(5)}, y: ${p.y.toFixed(5)}, z: ${p.z.toFixed(3)}, spatialReference: ${p.spatialReference.wkid} },
+  heading: ${view.camera.heading.toFixed(2)},
+  tilt: ${view.camera.tilt.toFixed(2)}
+}`);
+  }
+})();
 ```
 
 ---
