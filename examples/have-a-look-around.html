@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Create a tour</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.9/"></script>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="../style.css">
+  <script>
+    var webscene, view;
+
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView",
+      "dojo/domReady!"
+    ], function (WebScene, SceneView) {
+
+      // load scene with buildings
+      var scene = new WebScene({
+        portalItem: { // autocasts as new PortalItem()
+          id: "d8695805cb324135846f4b03eaeddeaa"
+        }
+      });
+
+      // create a view and add the scene
+      var view = new SceneView({
+        map: scene,
+        container: "viewDiv"
+      });
+
+      function lookAround() {
+        view.goTo({
+          position: view.camera.position,
+          heading: Math.round((view.camera.heading + 0.1) * 10) / 10
+        }, {
+            animate: false
+          });
+
+        requestAnimationFrame(function () {
+          if (!view.interacting) {
+            lookAround();
+          }
+        });
+      }
+      const lookAroundButton = document.getElementById("lookAround");
+
+      lookAroundButton.addEventListener("click", function() {
+        lookAround();
+      });
+
+      view.ui.empty("top-left");
+      view.ui.add(lookAroundButton, "top-left");
+
+      window.view = view;
+    });
+
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv">
+  </div>
+  <button id="lookAround" class="demo-button">Let's have a look around</button>
+</body>
+
+</html>

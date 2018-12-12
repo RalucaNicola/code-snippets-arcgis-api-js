@@ -56,7 +56,7 @@ window.setTimeout(function(){
 
 ### ⌛ Show when all layers finished drawing
 
-Sometimes you want to wait for all the layers to finish drawing before starting an animation or baking a cake. This snippet can come in handy in those critical moments. [Are my layers there yet?](./hello.html)
+Sometimes you want to wait for all the layers to finish drawing before starting an animation. This snippet can come in handy in those critical moments. [Are my layers there yet?](./hello.html)
 
 ```js
 
@@ -73,7 +73,7 @@ view.map.layers.forEach(function(layer) {
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. The `view` should be set on the `window`. Run this code snippet in the console: [Show me the camera](./hello.html)
+Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console: [Show me the camera](./hello.html)
 
 ```js
 
@@ -108,11 +108,27 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 
 ### 👀 Look around
 
-The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](./hello.html)
+The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](./examples/have-a-look-around.html)
 
 ```js
 
-// some snippet will be displayed here
+function lookAround() {
+  view.goTo({
+    position: view.camera.position,
+    heading: Math.round((view.camera.heading + 0.1) * 10) / 10
+  }, {
+    animate: false
+  });
+
+  requestAnimationFrame(function() {
+    if (!view.interacting) {
+      lookAround();
+    }
+  });
+}
+
+lookAround();
+
 ```
 
 ---
