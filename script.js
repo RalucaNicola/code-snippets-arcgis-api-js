@@ -76,7 +76,7 @@
       const htmlElement = document.createElement("div");
       htmlElement.innerHTML = template;
       container.appendChild(htmlElement);
+      const block = htmlElement.getElementsByTagName("code")[0];
+      hljs.highlightBlock(block);
     });
-
-    hljs.initHighlightingOnLoad();
   });
