@@ -148,7 +148,7 @@ For those moments when layers fading in or out would be so awesome (in time seri
 
 ### 📅 Change daytime with arrow keys
 
-Setting the daytime in an app without any funky widget. [Let there be light](have-a-look-around.html)
+Setting the daytime in an app without any funky widget. [Let there be light](change-daylight.html)
 
 ```js
 

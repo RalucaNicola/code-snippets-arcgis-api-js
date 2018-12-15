@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Pretty print camera</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://js.arcgis.com/4.10/"></script>
+  <script>
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView",
+      "esri/core/watchUtils"
+    ], function (WebScene, SceneView, watchUtils) {
+
+      // Create Map
+      const webscene = new WebScene({
+        portalItem: {
+          id: "6c7a0d4f03d2444fb1f4fa9e85a96044"
+        }
+      });
+
+      // Create the SceneView
+      const view = new SceneView({
+        container: "viewDiv",
+        map: webscene
+      });
+
+      const cameraContainer = document.getElementById("camera");
+
+      let finished = 0;
+
+      view.when(function () {
+        view.watch('extent', function (value) {
+          var p = view.camera.position;
+
+          if (p.spatialReference.isWebMercator || p.spatialReference.isWGS84) {
+            cameraContainer.innerHTML = `<code><pre>
+{
+  position: [${p.longitude.toFixed(8)}, ${p.latitude.toFixed(8)}, ${p.z.toFixed(5)}],
+  heading: ${view.camera.heading.toFixed(2)},
+  tilt: ${view.camera.tilt.toFixed(2)}
+}</pre></code>`;
+          }
+          else {
+            cameraContainer.innerHTML = `<code><pre>
+{
+  position: {
+    x: ${p.x.toFixed(5)},
+    y: ${p.y.toFixed(5)},
+    z: ${p.z.toFixed(3)},
+    spatialReference: ${p.spatialReference.wkid}
+  },
+  heading: ${view.camera.heading.toFixed(2)},
+  tilt: ${view.camera.tilt.toFixed(2)}
+}</pre></code>`;
+          }
+        })
+      });
+      view.ui.add(cameraContainer, "bottom-left");
+      window.view = view;
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="camera" class="console"></div>
+</body>
+
+</html>
