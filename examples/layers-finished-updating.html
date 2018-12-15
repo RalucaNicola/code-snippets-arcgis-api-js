@@ -52,8 +52,8 @@
             .then( function(layerView) {
               watchUtils.whenFalseOnce(layerView, "updating", function(value) {
                 statusContainer.innerHTML += `<br>Layer <span>${layer.title}</span> finished updating.`
-                finished += 1;
-                if (finished === view.map.allLayers.length) {
+                updatedLayers += 1;
+                if (updatedLayers === view.map.allLayers.length) {
                   statusContainer.innerHTML += "<br>All layers finished updating";
                 }
               });
