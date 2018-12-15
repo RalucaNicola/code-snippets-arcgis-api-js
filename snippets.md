@@ -73,26 +73,35 @@ window.setTimeout(function(){
 
 ---
 
-### ⌛ Show when all layers finished drawing
+### ⌛ Show when all layers finished updating
 
-Sometimes you want to wait for all the layers to finish drawing before starting an animation. This snippet can come in handy in those critical moments. [Are my layers there yet?](hello.html)
+Sometimes you want to wait for all the layers to finish updating before starting an animation [Are my layers there yet?](layers-finished-updating.html)
 
 ```js
 
-view.map.layers.forEach(function(layer) {
-  view.whenLayerView(layer, function(layerView) {
-    layerView.watch("updating", function() {
+let updatedLayers = 0;
 
-    });
-  })
-})
+view.when(function() {
+  view.map.allLayers.forEach(function(layer) {
+    view.whenLayerView(layer)
+      .then( function(layerView) {
+        watchUtils.whenFalseOnce(layerView, "updating", function(value) {
+          console.log(`Layer ${layer.title} finished updating.`
+          updatedLayers += 1;
+          if (updatedLayers === view.map.allLayers.length) {
+            statusContainer.innerHTML += "All layers finished updating";
+          }
+        });
+      });
+  });
+});
 ```
 
 ---
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console or try out the demo: [Show me the camera](hello.html)
+Figuring out the right numbers for camera position, tilt and heading made easy. Run this code snippet in the console or try out the demo: [Show me the camera](print-camera.html)
 
 ```js
 

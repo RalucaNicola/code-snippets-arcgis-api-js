@@ -64,3 +64,9 @@ footer {
   padding-bottom: 1em;
   font-size: 0.9em;
 }
+
+.console {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: 'Share Tech Mono', monospace;
+}

@@ -15,7 +15,6 @@
 
     while ((event = walker.next())) {
       node = event.node;
-      console.log(node);
       if (event.entering) {
 
         if (node.type === "thematic_break") {
