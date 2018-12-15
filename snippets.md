@@ -86,10 +86,10 @@ view.when(function() {
     view.whenLayerView(layer)
       .then( function(layerView) {
         watchUtils.whenFalseOnce(layerView, "updating", function(value) {
-          console.log(`Layer ${layer.title} finished updating.`
+          console.log(`Layer ${layer.title} finished updating.`);
           updatedLayers += 1;
           if (updatedLayers === view.map.allLayers.length) {
-            statusContainer.innerHTML += "All layers finished updating";
+            console.log("All layers finished updating");
           }
         });
       });
