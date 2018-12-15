@@ -23,45 +23,63 @@
     var webscene, view;
 
     require([
-      "esri/WebScene",
+      "esri/Map",
       "esri/views/SceneView",
+      "esri/layers/WebTileLayer",
+      "esri/Basemap",
+      "esri/core/scheduling",
       "dojo/domReady!"
-    ], function (WebScene, SceneView) {
+    ], function (Map, SceneView, WebTileLayer, Basemap, scheduling) {
 
-      // load scene with buildings
-      var scene = new WebScene({
-        portalItem: { // autocasts as new PortalItem()
-          id: "d8695805cb324135846f4b03eaeddeaa"
-        }
+      const baseLayer = new WebTileLayer({
+        urlTemplate: "https://stamen-tiles-{subDomain}.a.ssl.fastly.net/terrain/{level}/{col}/{row}.png",
+        subDomains: ["a", "b", "c", "d"],
+        copyright: "Map tiles by <a href=\"http://stamen.com/\">Stamen Design</a>, " +
+          "under <a href=\"http://creativecommons.org/licenses/by/3.0\">CC BY 3.0</a>. " +
+          "Data by <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, " +
+          "under <a href=\"http://creativecommons.org/licenses/by-sa/3.0\">CC BY SA</a>."
       });
-
-      // create a view and add the scene
-      var view = new SceneView({
-        map: scene,
-        container: "viewDiv"
-      });
-
-      function lookAround() {
-        view.goTo({
-          position: view.camera.position,
-          heading: Math.round((view.camera.heading + 0.1) * 10) / 10
-        }, {
-            animate: false
-          });
-
-        requestAnimationFrame(function () {
-          if (!view.interacting) {
-            lookAround();
+      const view = new SceneView({
+        container: "viewDiv",
+        map: new Map({
+          basemap: new Basemap({
+            baseLayers: [baseLayer]
+          }),
+          ground: "world-elevation"
+        }),
+        camera: {
+          position: [7.98688282, 46.21572916, 7843.37785],
+          heading: 14.16,
+          tilt: 81.94
+        },
+        ui: {
+          components: ["attribution"]
+        },
+        environment: {
+          atmosphere: {
+            quality: "high"
           }
-        });
-      }
+        },
+        qualityProfile: "high"
+      });
+
       const lookAroundButton = document.getElementById("lookAround");
 
       lookAroundButton.addEventListener("click", function() {
-        lookAround();
+
+        const handle = scheduling.addFrameTask({
+          update: function() {
+            if (!view.interacting) {
+              const camera = view.camera.clone();
+              camera.heading += 0.05;
+              view.camera = camera;
+            } else {
+              handle.remove();
+            }
+          }
+        });
       });
 
-      view.ui.empty("top-left");
       view.ui.add(lookAroundButton, "top-left");
 
       window.view = view;

@@ -4,23 +4,42 @@ Your users can see the data on a globe, but wouldn't it be awesome to make that 
 
 ```js
 
-function animate() {
-  const camera = view.camera.clone();
-  camera.position.longitude += 1;
-  view.goTo(camera);
-  requestAnimationFrame(function() {
+const handle = scheduling.addFrameTask({
+  update: function() {
     if (!view.interacting) {
-      animate();
+      const camera = view.camera.clone();
+      camera.position.longitude += 0.5;
+      view.camera = camera;
+    } else {
+      handle.remove();
     }
-  });
-}
+  }
+});
+```
 
-// start animating on some event (click, view ready, etc.)
-animate();
+---
+
+### 👀 Look around
+
+The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](have-a-look-around.html)
+
+```js
+
+const handle = scheduling.addFrameTask({
+  update: function() {
+    if (!view.interacting) {
+      const camera = view.camera.clone();
+      camera.heading += 0.05;
+      view.camera = camera;
+    } else {
+      handle.remove();
+    }
+  }
+});
 
 ```
 
-----
+---
 
 ### ✈️ Create a tour from a set of points
 
@@ -73,7 +92,7 @@ view.map.layers.forEach(function(layer) {
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console: [Show me the camera](hello.html)
+Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console or try out the demo: [Show me the camera](hello.html)
 
 ```js
 
@@ -102,33 +121,6 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 }`);
   }
 })();
-```
-
----
-
-### 👀 Look around
-
-The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](have-a-look-around.html)
-
-```js
-
-function lookAround() {
-  view.goTo({
-    position: view.camera.position,
-    heading: Math.round((view.camera.heading + 0.1) * 10) / 10
-  }, {
-    animate: false
-  });
-
-  requestAnimationFrame(function() {
-    if (!view.interacting) {
-      lookAround();
-    }
-  });
-}
-
-lookAround();
-
 ```
 
 ---

@@ -69,7 +69,7 @@
           </code></pre>
           ${(demo => {
             if(demo)
-              return `<a href="${item.demo.url}" target="_blank">${item.demo.text}</a>`;
+              return `<a href="./examples/${item.demo.url}" target="_blank">${item.demo.text}</a>`;
             else
               return "";
         })(item.demo)}

@@ -20,8 +20,9 @@
   <script>
     require([
       "esri/WebScene",
-      "esri/views/SceneView"
-    ], function(WebScene, SceneView) {
+      "esri/views/SceneView",
+      "esri/core/scheduling"
+    ], function(WebScene, SceneView, scheduling) {
 
       // Create Map
       const webscene = new WebScene({
@@ -38,19 +39,18 @@
 
       const rotateButton = document.getElementById("rotate");
 
-      function animate() {
-        const camera = view.camera.clone();
-        camera.position.longitude += 1;
-        view.goTo(camera);
-        requestAnimationFrame(function() {
-          if (!view.interacting) {
-            animate();
+      rotateButton.addEventListener("click", function() {
+        const handle = scheduling.addFrameTask({
+          update: function() {
+            if (!view.interacting) {
+              const camera = view.camera.clone();
+              camera.position.longitude += 0.5;
+              view.camera = camera;
+            } else {
+              handle.remove();
+            }
           }
         });
-      }
-
-      rotateButton.addEventListener("click", function() {
-        animate();
       });
 
       view.ui.empty("top-left");
