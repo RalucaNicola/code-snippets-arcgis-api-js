@@ -57,7 +57,6 @@
 
       }
     }
-    console.log(snippetList);
 
     snippetList.forEach(function(item) {
       const template = `
@@ -68,7 +67,12 @@
           <pre><code class="js">
             ${item.code}
           </code></pre>
-          <a href="${item.demo.url}" target="_blank">${item.demo.text}</a>
+          ${(demo => {
+            if(demo)
+              return `<a href="${item.demo.url}" target="_blank">${item.demo.text}</a>`;
+            else
+              return "";
+        })(item.demo)}
         </div>
       </div>
       `;

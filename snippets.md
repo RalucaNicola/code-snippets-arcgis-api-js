@@ -1,6 +1,6 @@
 ### 🌎 Rotate the globe
 
-Your users can see the data on a globe, but wouldn't it be awesome to make that globe spin automatically?[Spin me right round](./examples/rotate-the-globe.html)
+Your users can see the data on a globe, but wouldn't it be awesome to make that globe spin automatically? [Spin me right round](rotate-the-globe.html)
 
 ```js
 
@@ -24,7 +24,7 @@ animate();
 
 ### ✈️ Create a tour from a set of points
 
-Creating a tour is super easy, you can either do that from a set of camera positions, of slides or just some (view)points. [Take me on a tour](./examples/create-a-tour.html)
+Creating a tour is super easy, you can either do that from a set of camera positions, of slides or just some (view)points. [Take me on a tour](create-a-tour.html)
 
 ```js
 
@@ -56,7 +56,7 @@ window.setTimeout(function(){
 
 ### ⌛ Show when all layers finished drawing
 
-Sometimes you want to wait for all the layers to finish drawing before starting an animation. This snippet can come in handy in those critical moments. [Are my layers there yet?](./hello.html)
+Sometimes you want to wait for all the layers to finish drawing before starting an animation. This snippet can come in handy in those critical moments. [Are my layers there yet?](hello.html)
 
 ```js
 
@@ -73,7 +73,7 @@ view.map.layers.forEach(function(layer) {
 
 ### 🎥 Pretty print camera
 
-Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console: [Show me the camera](./hello.html)
+Figuring out the right numbers for camera position, tilt and heading made easy. The view should be set on the window. Run this code snippet in the console: [Show me the camera](hello.html)
 
 ```js
 
@@ -108,7 +108,7 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 
 ### 👀 Look around
 
-The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](./examples/have-a-look-around.html)
+The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](have-a-look-around.html)
 
 ```js
 
@@ -135,7 +135,7 @@ lookAround();
 
 ### 🌗 Fade in/out effect on layers
 
-For those moments when layers fading in or out would be so awesome (in time series for example). [Smoothly fade out my layers](./hello.html)
+For those moments when layers fading in or out would be so awesome (in time series for example). [Smoothly fade out my layers](hello.html)
 
 ```js
 
@@ -147,7 +147,7 @@ For those moments when layers fading in or out would be so awesome (in time seri
 
 ### 📅 Change daytime with arrow keys
 
-Setting the daytime in an app without any funky widget. [Let there be light](./hello.html)
+Setting the daytime in an app without any funky widget. [Let there be light](have-a-look-around.html)
 
 ```js
 
