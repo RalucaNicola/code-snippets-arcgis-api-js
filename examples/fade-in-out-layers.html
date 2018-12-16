@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Fade out layers</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .console>span {
+      color: #42f4d9;
+    }
+  </style>
+   <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://js.arcgis.com/4.10/"></script>
+  <script>
+require([
+  "esri/layers/FeatureLayer",
+  "esri/Map",
+  "esri/views/SceneView",
+  "esri/renderers/SimpleRenderer",
+  "esri/symbols/PointSymbol3D",
+  "esri/symbols/ObjectSymbol3DLayer",
+  "esri/widgets/Legend",
+  "esri/core/watchUtils",
+  "dojo/domReady!"
+], function (
+  FeatureLayer,
+  Map, SceneView,
+  SimpleRenderer,
+  PointSymbol3D,
+  ObjectSymbol3DLayer,
+  Legend,
+  watchUtils
+) {
+
+    // create the map
+    var map = new Map({
+      ground: {
+        surfaceColor: "#eaf2ff"
+      }
+    });
+
+    // create the view of the map
+    var view = new SceneView({
+      map: map,
+      container: "viewDiv",
+      constraints: {
+        collision: {
+          enabled: true
+        }
+      },
+      camera: {
+        position: {
+          spatialReference: {
+            latestWkid: 4326,
+            wkid: 4326
+          },
+          x: 50.34885653510194,
+          y: 18.68409306191745,
+          z: 19134228.85529455
+        },
+        heading: 0,
+        tilt: 0.1
+      },
+      environment: {
+        background: {
+          type: "color",
+          color: "white"
+        },
+        atmosphereEnabled: false,
+        lighting: {
+          directShadowsEnabled: false,
+          date: "Sun Jul 15 2018 11:00:00 GMT+0200 (W. Europe Daylight Time)",
+          cameraTrackingEnabled: true,
+          ambientOcclusionEnabled: false
+        }
+      }
+    });
+    view.ui.empty("top-left");
+    window.view = view;
+
+    const stops = [
+      {
+        value: 0,
+        size: 100000,
+        color: "#FFFFE1"
+      },
+      {
+        value: 400000,
+        size: 250000,
+        color: "#F3758C"
+      },
+      {
+        value: 7000000,
+        size: 1500000,
+        color: "#7D2898"
+      },
+      {
+        value: 30000000,
+        size: 3500000,
+        color: "#4C1E6E"
+      }
+    ];
+
+    const layer = new FeatureLayer({
+      url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/World_population/FeatureServer",
+      opacity: 0,
+      outFields: ["*"],
+      renderer: new SimpleRenderer({
+      symbol: new PointSymbol3D({
+        symbolLayers: [new ObjectSymbol3DLayer({
+          resource: {
+            primitive: "cube"
+          },
+          anchor: "bottom",
+          width: 80000
+        })]
+      }),
+      visualVariables: [{
+        type: "color",
+        field: "pop2020",
+        stops: stops,
+        legendOptions: {
+          title: "Number of persons/grid unit"
+        }
+        }, {
+          type: "size",
+          field: "pop2020",
+          stops: stops,
+          axis: "height",
+          legendOptions: {
+            showLegend: false
+          }
+        }, {
+          type: "size",
+          axis: "width-and-depth",
+          useSymbolValue: true, // uses the width value defined in the symbol layer (80,000)
+          legendOptions: {
+            showLegend: false
+          }
+        }]
+      }),
+      title: "Population 2020",
+      legendEnabled: false
+    });
+    map.layers.push(layer);
+
+    function fadeIn() {
+      const opacity = parseFloat((layer.opacity + 0.05).toFixed(2));
+      layer.opacity = opacity;
+      if (layer.opacity < 1) {
+        window.requestAnimationFrame(function () {
+          fadeIn();
+        });
+      }
+    }
+
+    function fadeOut() {
+      const opacity = parseFloat((layer.opacity - 0.05).toFixed(2));
+      layer.opacity = opacity;
+      if (layer.opacity > 0) {
+        window.requestAnimationFrame(function () {
+          fadeOut();
+        });
+      }
+    }
+
+    view.ui.empty("top-left");
+    view.ui.add("fadeInLayer", "top-left");
+    view.ui.add("fadeOutLayer", "top-left");
+
+    document.getElementById("fadeInLayer").addEventListener("click", function() {
+      fadeIn();
+    });
+
+    document.getElementById("fadeOutLayer").addEventListener("click", function() {
+      fadeOut();
+    });
+
+  });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <button id="fadeInLayer" class="demo-button">Display population layer</button>
+  <button id="fadeOutLayer" class="demo-button">Hide population layer</button>
+</body>
+
+</html>

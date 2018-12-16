@@ -136,11 +136,35 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 
 ### 🌗 Fade in/out effect on layers
 
-For those moments when layers fading in or out would be so awesome (in time series for example). [Smoothly fade out my layers](hello.html)
+For those moments when layers fading in or out would be so awesome (in time series for example). [Fade layers in and out](fade-in-out-layers.html)
 
 ```js
 
-// some snippet will be displayed here
+const layer = new FeatureLayer({
+  url: "../WorldPopulation/FeatureServer",
+  // opacity should initially be 0
+  opacity: 0
+});
+
+function fadeIn(layer) {
+  const opacity = parseFloat((layer.opacity + 0.05).toFixed(2));
+  layer.opacity = opacity;
+  if (layer.opacity < 1) {
+    window.requestAnimationFrame(function () {
+      fadeIn(layer);
+    });
+  }
+}
+
+function fadeOut(layer) {
+  const opacity = parseFloat((layer.opacity - 0.05).toFixed(2));
+  layer.opacity = opacity;
+  if (layer.opacity > 0) {
+    window.requestAnimationFrame(function () {
+      fadeOut(layer);
+    });
+  }
+}
 ```
 
 ---
