@@ -134,7 +134,7 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 
 ---
 
-### 🌗 Fade in/out effect on layers
+### Fade in/out effect on layers
 
 For those moments when layers fading in or out would be so awesome (in time series for example). [Fade layers in and out](fade-in-out-layers.html)
 
@@ -170,13 +170,32 @@ function fadeOut(layer) {
 ---
 
 
-### 📅 Change daytime with arrow keys
+### 🌗 Change daytime with the keys
 
-Setting the daytime in an app without any funky widget. [Let there be light](change-daylight.html)
+Setting the daytime in an app without any funky widget. Use this code snippet in the console. [Let there be light](change-daytime.html)
 
 ```js
 
-// some snippet will be displayed here
+(function() {
+  view.when(function () {
+    view.on("key-down", function(event) {
+      if (event.key === "ArrowRight") {
+        let lighting = view.environment.lighting.clone();
+        lighting.date.setMinutes(lighting.date.getMinutes() + 30);
+        view.environment.lighting = lighting;
+        daytimeContainer.innerHTML = lighting.date;
+        event.stopPropagation();
+      }
+      if (event.key === "ArrowLeft") {
+        let lighting = view.environment.lighting.clone();
+        lighting.date.setMinutes(lighting.date.getMinutes() - 30);
+        view.environment.lighting = lighting;
+        daytimeContainer.innerHTML = lighting.date;
+        event.stopPropagation();
+      }
+    });
+  });
+})();
 ```
 
 ---
