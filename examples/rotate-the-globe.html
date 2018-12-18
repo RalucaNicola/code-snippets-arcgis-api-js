@@ -44,7 +44,7 @@
           update: function() {
             if (!view.interacting) {
               const camera = view.camera.clone();
-              camera.position.longitude += 0.5;
+              camera.position.longitude -= 0.5;
               view.camera = camera;
             } else {
               handle.remove();

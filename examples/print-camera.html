@@ -45,10 +45,12 @@
 
       view.when(function () {
         view.watch('extent', function (value) {
-          var p = view.camera.position;
+          const p = view.camera.position;
+          const e = view.extent;
 
           if (p.spatialReference.isWebMercator || p.spatialReference.isWGS84) {
             cameraContainer.innerHTML = `<code><pre>
+// camera
 {
   position: [${p.longitude.toFixed(8)}, ${p.latitude.toFixed(8)}, ${p.z.toFixed(5)}],
   heading: ${view.camera.heading.toFixed(2)},
@@ -57,6 +59,7 @@
           }
           else {
             cameraContainer.innerHTML = `<code><pre>
+// camera
 {
   position: {
     x: ${p.x.toFixed(5)},
@@ -66,8 +69,21 @@
   },
   heading: ${view.camera.heading.toFixed(2)},
   tilt: ${view.camera.tilt.toFixed(2)}
-}</pre></code>`;
+}
+</pre></code>`;
           }
+
+          cameraContainer.innerHTML += `<code><pre>
+
+//extent
+{
+  xmin: ${e.xmin.toFixed(4)},
+  xmax: ${e.xmax.toFixed(4)},
+  ymin: ${e.ymin.toFixed(4)},
+  ymax: ${e.ymax.toFixed(4)},
+  spatialReference: ${e.spatialReference.wkid}
+}
+</pre></code>`
         })
       });
       view.ui.add(cameraContainer, "bottom-left");

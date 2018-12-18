@@ -1,6 +1,6 @@
 ### 🌎 Rotate the globe
 
-Your users can see the data on a globe, but wouldn't it be awesome to make that globe spin automatically? [Spin me right round](rotate-the-globe.html)
+Showing world wide data on a globe is cool. But showing it on a globe that rotates is even cooler. With this code snippet the globe rotates until the user interacts with it. [Spin me right round](rotate-the-globe.html)
 
 ```js
 
@@ -8,7 +8,7 @@ const handle = scheduling.addFrameTask({
   update: function() {
     if (!view.interacting) {
       const camera = view.camera.clone();
-      camera.position.longitude += 0.5;
+      camera.position.longitude -= 0.5;
       view.camera = camera;
     } else {
       handle.remove();
@@ -21,7 +21,7 @@ const handle = scheduling.addFrameTask({
 
 ### 👀 Look around
 
-The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position. [Let's have a look around](have-a-look-around.html)
+The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position (until the user interacts with the view). [Let's have a look around](have-a-look-around.html)
 
 ```js
 
@@ -75,7 +75,7 @@ window.setTimeout(function(){
 
 ### ⌛ Show when all layers finished updating
 
-Sometimes you want to wait for all the layers to finish updating before starting an animation [Are my layers there yet?](layers-finished-updating.html)
+Sometimes you want to wait for all the layers to finish updating before starting an animation or doing some other funky 3D things. [Are my layers there yet?](layers-finished-updating.html)
 
 ```js
 
@@ -106,12 +106,16 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 ```js
 
 (function() {
-  var p = view.camera.position;
+  const p = view.camera.position;
 
   if (p.spatialReference.isWebMercator || p.spatialReference.isWGS84) {
     console.log(`
 {
-  position: [${p.longitude.toFixed(8)}, ${p.latitude.toFixed(8)}, ${p.z.toFixed(5)}],
+  position: [
+    ${p.longitude.toFixed(8)},
+    ${p.latitude.toFixed(8)},
+    ${p.z.toFixed(5)}
+  ],
   heading: ${view.camera.heading.toFixed(2)},
   tilt: ${view.camera.tilt.toFixed(2)}
 }`);
@@ -130,21 +134,30 @@ Figuring out the right numbers for camera position, tilt and heading made easy. 
 }`);
   }
 })();
+
+// Super bonus: print the extent ⌐■_■
+(function() {
+  const e = view.extent;
+
+  console.log(`
+{
+  xmin: ${e.xmin.toFixed(4)},
+  xmax: ${e.xmax.toFixed(4)},
+  ymin: ${e.ymin.toFixed(4)},
+  ymax: ${e.ymax.toFixed(4)},
+  spatialReference: ${e.spatialReference.wkid}
+}`);
+})();
+
 ```
 
 ---
 
 ### Fade in/out effect on layers
 
-For those moments when layers fading in or out would be so awesome (in time series for example). [Fade layers in and out](fade-in-out-layers.html)
+Code snippet to be used in those moments when fading layers in or out would be so awesome. [Fade layers in and out](fade-in-out-layers.html)
 
 ```js
-
-const layer = new FeatureLayer({
-  url: "../WorldPopulation/FeatureServer",
-  // opacity should initially be 0
-  opacity: 0
-});
 
 function fadeIn(layer) {
   const opacity = parseFloat((layer.opacity + 0.05).toFixed(2));
@@ -170,9 +183,9 @@ function fadeOut(layer) {
 ---
 
 
-### 🌗 Change daytime with the keys
+### 🌗 Change daytime with arrow keys
 
-Setting the daytime in an app without any funky widget. Use this code snippet in the console. [Let there be light](change-daytime.html)
+Setting the daytime in an app without a widget. Use this code snippet in the console. [Let there be light](change-daytime.html)
 
 ```js
 
