@@ -21,7 +21,7 @@ const handle = scheduling.addFrameTask({
 
 ### 👀 Look around
 
-The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates 360 degrees around its position (until the user interacts with the view). [Let's have a look around](have-a-look-around.html)
+The one where the camera turns around to see what's behind it. Seriously now, with this code the camera rotates around its position (until the user interacts with the view). [Let's have a look around](have-a-look-around.html)
 
 ```js
 
@@ -43,7 +43,7 @@ const handle = scheduling.addFrameTask({
 
 ### ✈️ Create a tour from a set of points
 
-Creating a tour is super easy, you can either do that from a set of camera positions, of slides or just some (view)points. [Take me on a tour](create-a-tour.html)
+Animate the camera between slides, (view)points or features. [Take me on a tour](create-a-tour.html)
 
 ```js
 
