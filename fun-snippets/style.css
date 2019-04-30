@@ -10,6 +10,11 @@ header>h1 {
   display: inline-block;
 }
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .snippet .snippet-title {
   border-bottom: 10px solid #bbadf7;
   font-size: 1.4em;
