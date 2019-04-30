@@ -42,5 +42,4 @@ These are the code snippets that you use to spice up your app. You might only ne
 ![fun-snippets](./fun-snippets/snippet-page.png)
 
 Feel free to make a PR to contribute with your own snippets or suggest
-new code snippets with an issue :)
-
+new code snippets with an [issue](https://github.com/RalucaNicola/code-snippets-arcgis-api-js/issues) :)
