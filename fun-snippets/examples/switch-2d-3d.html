@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>{{ title }} - {{ jsapi_version }}</title>
+
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.11/esri/css/main.css">
+  <script src="https://jsdev.arcgis.com/4.11/"></script>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    html, body, #sceneViewDiv, #mapViewDiv {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #sceneViewDiv,
+    #mapViewDiv {
+      position: absolute;
+      transition: 3000ms cubic-bezier(0.23, 1, 0.32, 1) 0ms opacity;
+    }
+
+    #sceneViewDiv.switch-on,
+    #mapViewDiv.switch-on {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    #sceneViewDiv.switch-off,
+    #mapViewDiv.switch-off {
+      opacity: 0.001;
+      z-index: 1;
+    }
+
+
+    #switch-view {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+    }
+
+  </style>
+  <script>
+    require([
+      "esri/WebScene", "esri/WebMap",
+      "esri/views/MapView", "esri/views/SceneView"
+    ], function (
+      WebScene, WebMap,
+      MapView, SceneView) {
+
+      const webmap = new WebMap({
+        portalItem: {
+          id: "7ee3c8a93f254753a83ac0195757f137"
+        }
+      });
+      const webscene = new WebScene({
+        portalItem: {
+          id: "c8cf26d7acab4e45afcd5e20080983c1"
+        }
+      });
+
+      const mapView = new MapView({
+        container: "mapViewDiv",
+        map: webmap
+      });
+
+      const sceneView = new SceneView({
+        container: "sceneViewDiv",
+        map: webscene
+      });
+
+      let is2D = true;
+
+      // button that switches between 2D and 3D views
+      const switchButton = document.getElementById("switch-view");
+      switchButton.addEventListener("click", function () {
+        is2D = !is2D;
+        switchButton.innerHTML = is2D ? "Switch to 3D" : "Switch to 2D";
+        switchView();
+      });
+
+      function switchView() {
+        const newView = is2D ? mapView : sceneView;
+        const oldView = is2D ? sceneView : mapView;
+
+        newView.extent = oldView.extent;
+
+        if (newView === sceneView) {
+          newView.goTo({
+            rotation: oldView.rotation,
+            tilt: 0
+          }, { animate: false })
+          .then(function() {
+            animateOpacity(newView, oldView);
+            newView.goTo({
+              tilt: 60
+            }, {speedFactor: 0.3});
+          });
+        } else {
+          oldView.goTo({
+            tilt: 0
+          }, {speedFactor: 0.3})
+          .then(function() {
+            animateOpacity(newView, oldView);
+            newView.rotation = 360 - oldView.camera.heading;
+          });
+        }
+      }
+
+      function animateOpacity(newView, oldView) {
+        newView.container.classList.remove("switch-off");
+        newView.container.classList.add("switch-on");
+
+        oldView.container.classList.remove("switch-on");
+        oldView.container.classList.add("switch-off");
+      }
+
+    });
+
+  </script>
+</head>
+
+<body>
+  <div id="sceneViewDiv" class="switch-off"></div>
+  <div id="mapViewDiv" class="switch-on"></div>
+  <button id="switch-view" class="demo-button"> Switch to 3D</button>
+</body>
+
+</html>
