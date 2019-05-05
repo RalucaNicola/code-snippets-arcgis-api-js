@@ -103,7 +103,7 @@
         } else {
           oldView.goTo({
             tilt: 0
-          }, {speedFactor: 0.3})
+          })
           .then(function() {
             animateOpacity(newView, oldView);
             newView.rotation = 360 - oldView.camera.heading;
