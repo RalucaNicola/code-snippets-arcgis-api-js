@@ -5,14 +5,19 @@ Once you get to the view, it will allow you to access the webscene, layers, laye
 ```js
 // get the view in your application
 const view = require("esri/views/View").views.getItemAt(0);
-
-// print all layers
-view.map.allLayers.forEach(function(layer) {
-  console.log(layer.title);
-});
 ```
 
 ---
+
+### 👀 Show me the layers
+
+```js
+function showLayers() {
+  view.map.allLayers.forEach(function (index, layer) {
+    console.log(index, " -> ", layer.title);
+  });
+}
+```
 
 ### 👻 Layer doesn't show up
 
