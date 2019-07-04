@@ -76,6 +76,8 @@ Print it in the console and set it in your app afterwards.
   }
 })();
 
+// Code from Jesse van den Kieboom
+
 ```
 
 ---
@@ -98,6 +100,8 @@ You might need the extent to set a [clippingArea](https://developers.arcgis.com/
   spatialReference: ${e.spatialReference.wkid}
 }`);
 })();
+
+// Code from Jesse van den Kieboom
 
 ```
 

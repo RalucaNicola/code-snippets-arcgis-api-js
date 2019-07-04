@@ -102,9 +102,9 @@ function fadeOut(layer) {
 
 ---
 
-### Focus view when it updated
+### Focus view after it loaded
 
-This effect is about dislaying a blurry view until it finishes updating and rendering all the data. [Focus on me](blur-focus.html)
+This effect is about dislaying a blurry view until it finishes updating. Once all the data is displayed, the view gets focused. [Focus on view](blur-focus.html)
 
 ```js
 
@@ -124,6 +124,8 @@ view.when(function() {
     view.container.style.filter = "blur(0px)";
   });
 });
+
+// Idea from Jesse van den Kieboom
 ```
 
 ---
@@ -202,6 +204,7 @@ function animateOpacity(newView, oldView) {
   oldView.container.classList.add("switch-off");
 }
 
+// Idea from Jesse van den Kieboom
 ```
 
 ---
