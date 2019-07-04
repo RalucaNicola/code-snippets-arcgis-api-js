@@ -24,9 +24,7 @@ function showLayers() {
 Step 1: check that the LayerView gets created
 
 ```js
-const layer = view.map.allLayers.filter(function(layer) {
-  return layer.title === "no-show-layer";
-});
+const layer = view.map.allLayers.getItemAt(index);
 
 view.whenLayerView(layer)
   .then(function(layerView) {
@@ -105,39 +103,48 @@ You might need the extent to set a [clippingArea](https://developers.arcgis.com/
 
 ---
 
-### ⌛ Show when layers finished updating
+### ⌛ Show when a layer finished updating
 
 ```js
 
-// show when each layer finished updating
-let updatedLayers = 0;
+view.whenLayerView(layer)
+  .then( function(layerView) {
+    watchUtils.whenFalseOnce(layerView, "updating", function(value) {
+      console.log(`Layer ${layer.title} finished updating.`);
+      if (updatedLayers === view.map.allLayers.length) {
+        console.log("All layers finished updating");
+      }
+    });
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+```
+
+---
+
+---
+
+### ⌛ Show when the view finished updating
+
+```js
+
+// works reliably only with version 4.12
 
 view.when(function() {
-  view.map.allLayers.forEach(function(layer) {
-    view.whenLayerView(layer)
-      .then( function(layerView) {
-        watchUtils.whenFalseOnce(layerView, "updating", function(value) {
-          console.log(`Layer ${layer.title} finished updating.`);
-          updatedLayers += 1;
-          if (updatedLayers === view.map.allLayers.length) {
-            console.log("All layers finished updating");
-          }
-        });
-      });
+  watchUtils.whenFalseOnce(view, "updating", function() {
+    console.log("View finished updating");
   });
 });
 
-// show when everything finished updating (will work reliably with 4.12)
-watchUtils.whenFalseOnce(view, "updating", function() {
-  console.log("Start your animation here");
-})
 ```
 
 ---
 
 ### 🌗 Change daytime with arrow keys
 
-Setting the daytime in an app without a widget. Use this code snippet in the console. [Let there be light](change-daytime.html)
+Setting the daytime in an app without a widget. Use this code snippet in the console.
 
 ```js
 
@@ -148,14 +155,12 @@ Setting the daytime in an app without a widget. Use this code snippet in the con
         let lighting = view.environment.lighting.clone();
         lighting.date.setMinutes(lighting.date.getMinutes() + 30);
         view.environment.lighting = lighting;
-        daytimeContainer.innerHTML = lighting.date;
         event.stopPropagation();
       }
       if (event.key === "ArrowLeft") {
         let lighting = view.environment.lighting.clone();
         lighting.date.setMinutes(lighting.date.getMinutes() - 30);
         view.environment.lighting = lighting;
-        daytimeContainer.innerHTML = lighting.date;
         event.stopPropagation();
       }
     });
