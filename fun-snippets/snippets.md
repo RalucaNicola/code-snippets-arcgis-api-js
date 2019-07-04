@@ -101,3 +101,107 @@ function fadeOut(layer) {
 ```
 
 ---
+
+### Focus view when it updated
+
+This effect is about dislaying a blurry view until it finishes updating and rendering all the data. [Focus on me](blur-focus.html)
+
+```js
+
+const webscene = new WebScene({
+  portalItem: {
+    id: "0614ea1f9dd043e9ba157b9c20d3c538"
+  }
+});
+
+const view = new SceneView({
+  container: "viewDiv",
+  map: webscene
+});
+
+view.when(function() {
+  watchUtils.whenFalseOnce(view, "updating", function() {
+    view.container.style.filter = "blur(0px)";
+  });
+});
+```
+
+---
+
+### Switch between 2D and 3D
+
+For those special moments when you have a 2D map and a 3D scene and you want to switch between them. [Switch between 2D and 3D](switch-2d-3d.html)
+
+```js
+
+const webmap = new WebMap({
+  portalItem: {
+    id: "7ee3c8a93f254753a83ac0195757f137"
+  }
+});
+
+const webscene = new WebScene({
+  portalItem: {
+    id: "c8cf26d7acab4e45afcd5e20080983c1"
+  }
+});
+
+const mapView = new MapView({
+  container: "mapViewDiv",
+  map: webmap
+});
+
+const sceneView = new SceneView({
+  container: "sceneViewDiv",
+  map: webscene
+});
+
+let is2D = true;
+
+// button that switches between 2D and 3D views
+const switchButton = document.getElementById("switch-view");
+switchButton.addEventListener("click", function () {
+  is2D = !is2D;
+  switchButton.innerHTML = is2D ? "Switch to 3D" : "Switch to 2D";
+  switchView();
+});
+
+function switchView() {
+  const newView = is2D ? mapView : sceneView;
+  const oldView = is2D ? sceneView : mapView;
+
+  newView.extent = oldView.extent;
+
+  if (newView === sceneView) {
+    newView.goTo({
+      rotation: oldView.rotation,
+      tilt: 0
+    }, { animate: false })
+    .then(function() {
+      animateOpacity(newView, oldView);
+      newView.goTo({
+        tilt: 60
+      }, {speedFactor: 0.3});
+    });
+  } else {
+    oldView.goTo({
+      tilt: 0
+    })
+    .then(function() {
+      animateOpacity(newView, oldView);
+      newView.rotation = 360 - oldView.camera.heading;
+    });
+  }
+}
+
+function animateOpacity(newView, oldView) {
+  newView.container.classList.remove("switch-off");
+  newView.container.classList.add("switch-on");
+
+  oldView.container.classList.remove("switch-on");
+  oldView.container.classList.add("switch-off");
+}
+
+```
+
+---

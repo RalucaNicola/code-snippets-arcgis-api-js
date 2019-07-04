@@ -4,13 +4,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>{{ title }} - {{ jsapi_version }}</title>
+  <title>Switch between 2D and 3D</title>
 
-  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.11/esri/css/main.css">
-  <script src="https://jsdev.arcgis.com/4.11/"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.12/"></script>
   <link rel="stylesheet" href="../style.css">
   <style>
-    html, body, #sceneViewDiv, #mapViewDiv {
+    html,
+    body,
+    #sceneViewDiv,
+    #mapViewDiv {
       margin: 0;
       padding: 0;
       width: 100%;
@@ -57,6 +60,7 @@
           id: "7ee3c8a93f254753a83ac0195757f137"
         }
       });
+
       const webscene = new WebScene({
         portalItem: {
           id: "c8cf26d7acab4e45afcd5e20080983c1"
@@ -91,23 +95,27 @@
 
         if (newView === sceneView) {
           newView.goTo({
-            rotation: oldView.rotation,
-            tilt: 0
-          }, { animate: false })
-          .then(function() {
-            animateOpacity(newView, oldView);
-            newView.goTo({
-              tilt: 60
-            }, {speedFactor: 0.3});
-          });
+              rotation: oldView.rotation,
+              tilt: 0
+            }, {
+              animate: false
+            })
+            .then(function () {
+              animateOpacity(newView, oldView);
+              newView.goTo({
+                tilt: 60
+              }, {
+                speedFactor: 0.3
+              });
+            });
         } else {
           oldView.goTo({
-            tilt: 0
-          })
-          .then(function() {
-            animateOpacity(newView, oldView);
-            newView.rotation = 360 - oldView.camera.heading;
-          });
+              tilt: 0
+            })
+            .then(function () {
+              animateOpacity(newView, oldView);
+              newView.rotation = 360 - oldView.camera.heading;
+            });
         }
       }
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Layers finished updating</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #viewDiv {
+      filter: blur(10px);
+      transition: filter 0.3s;
+    }
+
+    #message {
+      position: absolute;
+      width: 300px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      margin: -100px 0 0 -150px;
+      background: white;
+      padding: 1em;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+  </style>
+   <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/css/main.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://js.arcgis.com/4.12/"></script>
+  <script>
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView",
+      "esri/core/watchUtils"
+    ], function(WebScene, SceneView, watchUtils) {
+
+// Create Map
+const webscene = new WebScene({
+  portalItem: {
+    id: "0614ea1f9dd043e9ba157b9c20d3c538"
+  }
+});
+
+// Create the SceneView
+const view = new SceneView({
+  container: "viewDiv",
+  map: webscene
+});
+
+view.when(function() {
+  watchUtils.whenFalseOnce(view, "updating", function() {
+    view.container.style.filter = "blur(0px)";
+    document.getElementById("message").style.display = "none";
+  });
+});
+
+  });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="message">
+    Hello! I'm a message that will disappear as soon as the view loaded.
+  </div>
+</body>
+
+</html>

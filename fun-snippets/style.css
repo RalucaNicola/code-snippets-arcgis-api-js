@@ -8,6 +8,7 @@ header>h1 {
   border: 10px solid pink;
   border-left: none;
   display: inline-block;
+  color: #777;
 }
 
 .container {
@@ -54,18 +55,18 @@ header>h1 {
   background: transparent;
 }
 
-footer a, header a {
+header a {
   color: #f44283;
   font-weight: bold;
   text-decoration: none;
 }
 
-footer a:hover, header a:hover {
+header a:hover {
   color: pink;
 }
 
 footer {
-  color: #777;
+
   padding-bottom: 1em;
   font-size: 0.9em;
 }
