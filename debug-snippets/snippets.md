@@ -12,7 +12,7 @@ const view = require("esri/views/View").views.getItemAt(0);
 
 ```js
 view.map.allLayers.forEach((layer, index) => {
-  console.log(index, " -> ", layer.title);
+  console.log(`${index} -> ${layer.title}`);
 });
 ```
 
@@ -24,7 +24,7 @@ Step 1: check that the LayerView gets created
 const layer = view.map.allLayers.getItemAt(index);
 
 view.whenLayerView(layer)
-  .then(layerView => console.log(layerView))
+  .then((layerView) => console.log(layerView))
   // if there were problems with the layerview, you'll get an error here
   .catch(console.error);
 ```
@@ -100,35 +100,15 @@ You might need the extent to set a [clippingArea](https://developers.arcgis.com/
 
 ---
 
-### ⌛ Show when a layer finished updating
-
-```js
-
-view.whenLayerView(layer)
-  .then(layerView => {
-    layerView.watch("updating", value => {
-      if (!value) {
-        console.log(`Layer ${layer.title} finished updating.`);
-      }
-    });
-  })
-  .catch(console.error);
-
-```
-
----
-
 ### ⌛ Show when the view finished updating
 
 ```js
 
 // works reliably only with version 4.12
 
-view.when(() => {
-  view.watch("updating", value => {
-    const status = value ? "Updating" : "Finished updating"
-    console.log(status);
-  });
+view.watch("updating", (value) => {
+  const status = value ? "is updating" : "finished updating";
+  console.log(`View ${status}.`);
 });
 
 ```
@@ -157,4 +137,3 @@ view.when(() => {
   });
 });
 ```
-
