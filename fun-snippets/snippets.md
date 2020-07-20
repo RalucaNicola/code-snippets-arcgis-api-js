@@ -4,17 +4,14 @@ Showing world wide data on a globe is cool. But showing it on a globe that rotat
 
 ```js
 
-const handle = scheduling.addFrameTask({
-  update: function() {
-    if (!view.interacting) {
-      const camera = view.camera.clone();
-      camera.position.longitude -= 0.5;
-      view.camera = camera;
-    } else {
-      handle.remove();
-    }
+function rotate() {
+  if (!view.interacting) {
+    const camera = view.camera.clone();
+    camera.position.longitude -= 0.2;
+    view.goTo(camera, { animate: false });
+    requestAnimationFrame(rotate);
   }
-});
+}
 ```
 
 ---
@@ -25,17 +22,14 @@ The one where the camera turns around to see what's behind it. Seriously now, wi
 
 ```js
 
-const handle = scheduling.addFrameTask({
-  update: function() {
-    if (!view.interacting) {
-      const camera = view.camera.clone();
-      camera.heading += 0.05;
-      view.camera = camera;
-    } else {
-      handle.remove();
-    }
+function lookAround() {
+  if (!view.interacting) {
+    const camera = view.camera.clone();
+    camera.heading += 0.05;
+    view.goTo(camera, { animate: false });
+    requestAnimationFrame(lookAround);
   }
-});
+}
 
 ```
 

@@ -40,17 +40,14 @@
       const rotateButton = document.getElementById("rotate");
 
       rotateButton.addEventListener("click", function() {
-        const handle = scheduling.addFrameTask({
-          update: function() {
-            if (!view.interacting) {
-              const camera = view.camera.clone();
-              camera.position.longitude -= 0.5;
-              view.camera = camera;
-            } else {
-              handle.remove();
-            }
+        function rotate() {
+          if (!view.interacting) {
+            const camera = view.camera.clone();
+            camera.position.longitude -= 0.2;
+            view.goTo(camera, { animate: false });
+            requestAnimationFrame(rotate);
           }
-        });
+        }
       });
 
       view.ui.empty("top-left");
